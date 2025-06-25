@@ -1,21 +1,46 @@
-namespace DesafioProjetoHospedagem.Models;
-
-public class Pessoa
+namespace trilha_net_explorando_desafio.Models
 {
-    public Pessoa() { }
-
-    public Pessoa(string nome)
+    public class Pessoa
     {
-        Nome = nome;
-    }
+        public Pessoa() { }
 
-    public Pessoa(string nome, string sobrenome)
-    {
-        Nome = nome;
-        Sobrenome = sobrenome;
-    }
+        public Pessoa(string nome, string sobrenome)
+        {
+            Nome = nome;
+            Sobrenome = sobrenome;
+        }
 
-    public string Nome { get; set; }
-    public string Sobrenome { get; set; }
-    public string NomeCompleto => $"{Nome} {Sobrenome}".ToUpper();
+        private string _nome;
+        private string _sobrenome;
+
+        public string Nome
+        {
+            get => _nome;
+
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("O nome não pode ser vazio.");
+                }
+                _nome = value;
+            }
+        }
+
+        public string Sobrenome
+        {
+            get => _sobrenome;
+
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("O sobrenome não pode ser vazio.");
+                }
+                _sobrenome = value;
+            }
+        }
+
+        public string NomeCompleto => $"{Nome} {Sobrenome}".ToUpper();
+    }
 }

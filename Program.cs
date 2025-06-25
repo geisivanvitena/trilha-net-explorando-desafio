@@ -1,25 +1,40 @@
-﻿using System.Text;
-using DesafioProjetoHospedagem.Models;
+﻿using trilha_net_explorando_desafio.Models;
 
-Console.OutputEncoding = Encoding.UTF8;
+try
+{
+    List<Pessoa> hospedes = new List<Pessoa>();
 
-// Cria os modelos de hóspedes e cadastra na lista de hóspedes
-List<Pessoa> hospedes = new List<Pessoa>();
+    Pessoa p1 = new Pessoa(nome: "geisivan", sobrenome: "silva");
+    Pessoa p2 = new Pessoa(nome: "mariana", sobrenome: "felix");
 
-Pessoa p1 = new Pessoa(nome: "Hóspede 1");
-Pessoa p2 = new Pessoa(nome: "Hóspede 2");
+    hospedes.Add(p1);
+    hospedes.Add(p2);
 
-hospedes.Add(p1);
-hospedes.Add(p2);
+    Suite suite = new Suite(tipoSuite: "Luxo", capacidade: 2, valorDiaria: 50);
 
-// Cria a suíte
-Suite suite = new Suite(tipoSuite: "Premium", capacidade: 2, valorDiaria: 30);
+    Reserva reserva = new Reserva(5);
+    reserva.CadastrarHospedes(hospedes);
+    reserva.CadastrarSuite(suite);
 
-// Cria uma nova reserva, passando a suíte e os hóspedes
-Reserva reserva = new Reserva(diasReservados: 5);
-reserva.CadastrarSuite(suite);
-reserva.CadastrarHospedes(hospedes);
+    Console.WriteLine("\n===== Gestão de hospedagem =====\n");
+    Console.WriteLine("Resumo da reserva:");
+    Console.WriteLine("----------------------------------------");
+    Console.WriteLine($"Quantidade de hóspedes cadastrados: {reserva.ObterQuantidadeDeHospedes()}\n");
+    Console.WriteLine("Hóspedes Cadastrados:\n");
+    Console.WriteLine($"Nome: {p1.NomeCompleto}");
+    Console.WriteLine($"Nome: {p2.NomeCompleto}");
+    Console.WriteLine("----------------------------------------");
+    Console.WriteLine($"Tipo de suíte: {suite.TipoSuite}");
+    Console.WriteLine($"Capacidade da suíte: {suite.Capacidade}");
+    Console.WriteLine($"Valor da diária (R$): {reserva.Suite.ValorDiaria:F2}");
+    Console.WriteLine($"Quantidade de dias reservados: {reserva.DiasReservados}\n");
+    Console.WriteLine($"Valor total à pagar (R$): {reserva.CalcularValorDiaria():F2}"); 
+    Console.WriteLine("----------------------------------------");
+}
+catch (Exception ex)
+{
 
-// Exibe a quantidade de hóspedes e o valor da diária
-Console.WriteLine($"Hóspedes: {reserva.ObterQuantidadeHospedes()}");
-Console.WriteLine($"Valor diária: {reserva.CalcularValorDiaria()}");
+    Console.WriteLine($"Atenção: Aconteceu um erro: {ex.Message}");
+}
+
+

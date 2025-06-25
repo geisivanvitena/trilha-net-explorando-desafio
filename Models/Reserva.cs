@@ -1,11 +1,7 @@
-namespace DesafioProjetoHospedagem.Models
+namespace trilha_net_explorando_desafio.Models
 {
     public class Reserva
     {
-        public List<Pessoa> Hospedes { get; set; }
-        public Suite Suite { get; set; }
-        public int DiasReservados { get; set; }
-
         public Reserva() { }
 
         public Reserva(int diasReservados)
@@ -13,48 +9,83 @@ namespace DesafioProjetoHospedagem.Models
             DiasReservados = diasReservados;
         }
 
-        public void CadastrarHospedes(List<Pessoa> hospedes)
+        private List<Pessoa> _hospedes = new List<Pessoa>();
+        private Suite _suite;
+        private int _diasReservados = 0;
+
+        public List<Pessoa> Hospedes
         {
-            // TODO: Verificar se a capacidade é maior ou igual ao número de hóspedes sendo recebido
-            // *IMPLEMENTE AQUI*
-            if (true)
+            get => _hospedes;
+
+            set => _hospedes = value;
+        }
+
+        public Suite Suite
+        {
+            get => _suite;
+
+            set => _suite = value;
+        }
+
+        public int DiasReservados
+        {
+            get => _diasReservados;
+
+            set
             {
-                Hospedes = hospedes;
-            }
-            else
-            {
-                // TODO: Retornar uma exception caso a capacidade seja menor que o número de hóspedes recebido
-                // *IMPLEMENTE AQUI*
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Dias reservados deve ser maior que zero.");
+                }
+                _diasReservados = value;
             }
         }
 
+        // IMPLEMENTADO
+        public void CadastrarHospedes(List<Pessoa> hospedes)
+        {
+            if (hospedes == null || hospedes.Count == 0)
+            {
+                throw new ArgumentException("Você precisa cadastrar um hóspede.");
+            }
+
+            Hospedes = hospedes;
+        }
+
+        // IMPLEMENTADO
         public void CadastrarSuite(Suite suite)
         {
+            if (suite == null)
+            {
+                throw new ArgumentException("Você precisa cadastrar uma suíte.");
+            }
+
+            if (Hospedes.Count > suite.Capacidade)
+            {
+                throw new ArgumentException("A quantidade de hóspedes excede a capacidade da suíte.");
+            }
             Suite = suite;
         }
 
-        public int ObterQuantidadeHospedes()
+        // IMPLEMENTADO
+        public int ObterQuantidadeDeHospedes()
         {
-            // TODO: Retorna a quantidade de hóspedes (propriedade Hospedes)
-            // *IMPLEMENTE AQUI*
-            return 0;
+            int quantidade = Hospedes.Count;
+            return quantidade;
         }
 
+        // IMPLEMENTADO
         public decimal CalcularValorDiaria()
         {
-            // TODO: Retorna o valor da diária
-            // Cálculo: DiasReservados X Suite.ValorDiaria
-            // *IMPLEMENTE AQUI*
-            decimal valor = 0;
+            decimal valor = DiasReservados * Suite.ValorDiaria;
 
-            // Regra: Caso os dias reservados forem maior ou igual a 10, conceder um desconto de 10%
-            // *IMPLEMENTE AQUI*
-            if (true)
+            if (DiasReservados >= 10)
             {
-                valor = 0;
+                valor -= valor * 0.10M;
             }
 
             return valor;
         }
+
     }
 }
